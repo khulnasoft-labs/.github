@@ -1,6 +1,5 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "local>khulnasoft-labs/.github:renovate-config"
-  ]
+  "description": "Default preset for use with KhulnaSoft Lab's repos",
+  "extends": ["config:base"]
 }
