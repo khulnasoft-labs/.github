@@ -1,1 +1,1 @@
-[![CVE-ICU](https://cve.khulnasoft.com/index.html)](cve.khulnasoft.com)
+[![CVE-ICU](https://cve.khulnasoft.com/index.html)](https://cve.khulnasoft.com/)
