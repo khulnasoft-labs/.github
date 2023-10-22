@@ -1,1 +1,1 @@
-<iframe src="https://cve.khulnasoft.com/index.html&amp;autoplay=false&amp;offerviewer=true&amp;showtitle=true&amp;showbrand=false&amp;start=0&amp;interactivity=all" height="405" width="720" style="border: 1px solid #464646;" allowfullscreen="" allow="autoplay" data-external="1"></iframe>
+[![CVE-ICU](https://cve.khulnasoft.com/index.html)](cve.khulnasoft.com)
