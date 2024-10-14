@@ -9,7 +9,8 @@ g = Github(os.environ['GITHUB_TOKEN'])
 org = g.get_organization(os.environ['GITHUB_REPOSITORY'].split('/')[0])
 
 # Prepare the data table
-data_table = ""
+data_table = "| Name | Build status | Analysis status | Latest release | Issues |\n"
+data_table += "|:-----|:-------------|:----------------|:---------------|:-------|\n"
 
 # Iterate through all public repositories
 for repo in org.get_repos(type='public'):
@@ -19,18 +20,23 @@ for repo in org.get_repos(type='public'):
 
     # Get latest release
     latest_release = "N/A"
+    release_date = "N/A"
     releases = repo.get_releases()
     if releases.totalCount > 0:
         latest_release = releases[0].tag_name
+        release_date = releases[0].created_at.strftime("%Y-%m-%d")
 
-    # Get open PRs count
-    open_prs = repo.get_pulls(state='open').totalCount
-
-    # Get open issues count
-    open_issues = repo.get_issues(state='open').totalCount
+    # Create badges
+    repo_url = repo.html_url
+    build_badge = f"[![Build Status](https://github.com/{repo.full_name}/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/{repo.full_name}/actions)"
+    analysis_badge = f"[![Scan Status](https://scan.coverity.com/projects/{repo.id}/badge.svg?flat=1)](https://scan.coverity.com/projects/{repo.id})"
+    release_badge = f"[![Latest Release](https://img.shields.io/github/release/{repo.full_name}.svg?style=flat-square&label=)](https://github.com/{repo.full_name}/releases)"
+    release_date_badge = f"[![Release date](https://img.shields.io/github/release-date/{repo.full_name}.svg?style=flat-square&color=informational&label=)](https://github.com/{repo.full_name}/releases)"
+    pulls_badge = f"[![Pulls](https://img.shields.io/github/issues-pr-raw/{repo.full_name}.svg?style=flat-square&color=informational&label=pulls)](https://github.com/{repo.full_name}/pulls)"
+    issues_badge = f"[![Issues](https://img.shields.io/github/issues-raw/{repo.full_name}.svg?style=flat-square&color=informational&label=issues)](https://github.com/{repo.full_name}/issues)"
 
     # Add row to data table
-    data_table += f"| [{name}]({repo.html_url}) | {latest_release} | {open_prs} | {open_issues} |\n"
+    data_table += f"[{name}]({repo_url}) | {build_badge} | {analysis_badge} | {release_badge}{release_date_badge} | {pulls_badge} {issues_badge}\n"
 
 # Read the README template
 with open('README.md', 'r') as file:
@@ -44,4 +50,4 @@ readme = readme.replace("<!-- LAST_UPDATED -->", datetime.now().strftime("%Y-%m-
 with open('README.md', 'w') as file:
     file.write(readme)
 
-print("README.md has been updated with the latest repository status.")
+print("README.md has been updated with the latest repository status and badges.")
